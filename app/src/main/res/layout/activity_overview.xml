@@ -28,4 +28,6 @@
         android:name="destroxwhey.de.socialalarm.NavigationDrawerFragment"
         tools:layout="@layout/fragment_navigation_drawer" />
 
+
+
 </android.support.v4.widget.DrawerLayout>

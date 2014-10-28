@@ -16,6 +16,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Activity_Alarm"
+            android:label="@string/title_activity_activity__alarm"
+            android:parentActivityName=".OverviewActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="destroxwhey.de.socialalarm.OverviewActivity" />
+        </activity>
+        <service android:name=".NotifyService"/>
     </application>
 
 </manifest>
