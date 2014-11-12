@@ -7,6 +7,7 @@ import android.app.AlarmManager;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +17,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
+import android.widget.ListView;
+
+import java.util.zip.Inflater;
 
 
 public class OverviewActivity extends Activity
@@ -31,6 +35,9 @@ public class OverviewActivity extends Activity
      */
     private CharSequence mTitle;
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +50,8 @@ public class OverviewActivity extends Activity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+
     }
 
     @Override
@@ -83,6 +92,17 @@ public class OverviewActivity extends Activity
     public void oc_addAlarm(View view){
         Intent intent = new Intent(this, Activity_Alarm.class);
         startActivity(intent);
+    }
+
+    public void oc_clearAlarms(View view){
+        SocialAlarm socialAlarm = (SocialAlarm) getApplicationContext();
+        socialAlarm.dbAdapter.deleteAll();
+
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        fragmentTransaction.replace(R.id.container, new FragmentAlarm()).commit();
+
     }
 
     public void restoreActionBar() {

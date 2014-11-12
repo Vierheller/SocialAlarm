@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -23,11 +24,16 @@ import java.util.Calendar;
 public class Activity_Alarm extends Activity {
     private TimePicker myTimePicker;
     private PendingIntent pendingIntent;
+    private int alarmImage = R.drawable.alarm;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_activity__alarm);
         myTimePicker = (TimePicker) findViewById(R.id.alarm_timePicker);
+
     }
 
 
@@ -56,14 +62,18 @@ public class Activity_Alarm extends Activity {
         pendingIntent = PendingIntent.getService(this, 0, myIntent, 0);
 
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.HOUR_OF_DAY, 20);
-        calendar.set(Calendar.MINUTE, 17);
-        calendar.set(Calendar.AM_PM, Calendar.PM);
-        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        int hour = myTimePicker.getCurrentHour();
+        int minute = myTimePicker.getCurrentMinute();
+        int ampm = myTimePicker.getBaseline();
 
+        Log.d("Alarm", String.valueOf(hour)+" "+String.valueOf(minute)+" "+String.valueOf(ampm));
+        calendar.set(Calendar.SECOND, 00);
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minute);
 
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000*60*60*24, pendingIntent);
+        Log.d("Alarm" , String.valueOf(calendar.get(Calendar.HOUR_OF_DAY)+" "+ calendar.get(Calendar.MINUTE)+" "+ calendar.get(Calendar.DAY_OF_MONTH)));
+
+        alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 1000*60*60*24, pendingIntent);
         Toast.makeText(getBaseContext(), "Alarm Set", Toast.LENGTH_SHORT).show();
     }
 
