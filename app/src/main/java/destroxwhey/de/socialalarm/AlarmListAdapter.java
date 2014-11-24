@@ -18,16 +18,13 @@ import java.util.ArrayList;
 public class AlarmListAdapter extends ArrayAdapter<String> {
     private Context context;
     private String[] titles;
-    private String[] times;
-    private int[][] days;
+    ArrayList<AlarmHolder> myAlarms = new ArrayList<AlarmHolder>();
 
-    public AlarmListAdapter(Context context, int resource, int textViewResourceId, String[] titles, int[][] days, String[] times) {
+    public AlarmListAdapter(Context context, int resource, int textViewResourceId, String[] titles, ArrayList<AlarmHolder> myAlarms) {
         super(context, resource, textViewResourceId, titles);
         this.context = context;
-        this.days = days;
         this.titles = titles;
-        this.times = times;
-
+        this.myAlarms = myAlarms;
         Log.d("ListViewAdapter", "Adapter instanciated!");
     }
 
@@ -51,7 +48,7 @@ public class AlarmListAdapter extends ArrayAdapter<String> {
         mydays.add(6,(TextView) row.findViewById(R.id.single_tv_su));
 
         for(int i=0;i<7;i++){
-            if(days[position][i]==0){
+            if(myAlarms.get(position).getDays()[i]==0){
                 mydays.get(i).setTextColor(Color.BLACK);
             }else{
                 mydays.get(i).setTextColor(Color.GREEN);
@@ -59,10 +56,10 @@ public class AlarmListAdapter extends ArrayAdapter<String> {
         }
         myImage.setImageResource(R.drawable.alarm);
         myTitle.setText(titles[position]);
-        myTime.setText(times[position]);
-
-
+        myTime.setText(myAlarms.get(position).getHour()+":"+myAlarms.get(position).getMinute());
 
         return row;
     }
+
+
 }

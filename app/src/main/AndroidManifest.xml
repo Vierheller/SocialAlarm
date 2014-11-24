@@ -25,7 +25,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="destroxwhey.de.socialalarm.OverviewActivity" />
         </activity>
-        <service android:name=".NotifyService"/>
+        <receiver android:name=".NotifyService"></receiver>
     </application>
 
 </manifest>

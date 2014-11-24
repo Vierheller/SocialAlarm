@@ -32,6 +32,7 @@ public class DBAdapter {
 	public static final String KEY_NAME = "name";
 	public static final String KEY_HOUROFDAY = "hourofday";
     public static final String KEY_MINUTE = "minute";
+    public static final String KEY_REQUESTCODE = "requestcode";
 	public static final String KEY_MONDAY = "monday";
     public static final String KEY_TUESDAY = "tuesday";
     public static final String KEY_WEDNESDAY = "wednesday";
@@ -44,22 +45,23 @@ public class DBAdapter {
     public static final int COL_NAME = 1;
     public static final int COL_HOUROFDAY = 2;
     public static final int COL_MINUTE = 3;
-    public static final int COL_MONDAY = 4;
-    public static final int COL_TUESDAY = 5;
-    public static final int COL_WEDNESDAY = 6;
-    public static final int COL_THURSDAY = 7;
-    public static final int COL_FRIDAY = 8;
-    public static final int COL_SATURDAY = 9;
-    public static final int COL_SUNDAY = 10;
+    public static final int COL_REQUESTCODE = 4;
+    public static final int COL_MONDAY = 5;
+    public static final int COL_TUESDAY = 6;
+    public static final int COL_WEDNESDAY = 7;
+    public static final int COL_THURSDAY = 8;
+    public static final int COL_FRIDAY = 9;
+    public static final int COL_SATURDAY = 10;
+    public static final int COL_SUNDAY = 11;
 
 	
-	public static final String[] ALL_KEYS = new String[] {KEY_ROWID, KEY_NAME, KEY_HOUROFDAY, KEY_MINUTE, KEY_MONDAY, KEY_TUESDAY, KEY_WEDNESDAY, KEY_THURSDAY, KEY_FRIDAY, KEY_SATURDAY, KEY_SUNDAY};
+	public static final String[] ALL_KEYS = new String[] {KEY_ROWID, KEY_NAME, KEY_HOUROFDAY, KEY_MINUTE, KEY_REQUESTCODE, KEY_MONDAY, KEY_TUESDAY, KEY_WEDNESDAY, KEY_THURSDAY, KEY_FRIDAY, KEY_SATURDAY, KEY_SUNDAY};
 	
 	// DB info: it's name, and the table we are using (just one).
 	public static final String DATABASE_NAME = "MyDb";
 	public static final String DATABASE_TABLE = "alarmTable";
 	// Track DB version if a new version of your app changes the format.
-	public static final int DATABASE_VERSION = 3;
+	public static final int DATABASE_VERSION = 6;
 	
 	private static final String DATABASE_CREATE_SQL = 
 			"create table " + DATABASE_TABLE 
@@ -78,6 +80,7 @@ public class DBAdapter {
 			+ KEY_NAME + " text not null, "
 			+ KEY_HOUROFDAY + " integer not null, "
             + KEY_MINUTE + " integer not null, "
+            + KEY_REQUESTCODE + " integer not null, "
             + KEY_MONDAY + " integer not null, "
             + KEY_TUESDAY + " integer not null, "
             + KEY_WEDNESDAY + " integer not null, "
@@ -116,11 +119,12 @@ public class DBAdapter {
 	}
 	
 	// Add a new set of values to the database.
-	public long insertRow(String name, int hourofday, int minute, int monday, int tuesday, int wednesday, int thursday, int friday, int saturday, int sunday) {
+	public long insertRow(String name, int hourofday, int minute, int requestcode, int monday, int tuesday, int wednesday, int thursday, int friday, int saturday, int sunday) {
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_NAME, name);
 		initialValues.put(KEY_HOUROFDAY, hourofday);
         initialValues.put(KEY_MINUTE, minute);
+        initialValues.put(KEY_REQUESTCODE, requestcode);
 		initialValues.put(KEY_MONDAY, monday);
         initialValues.put(KEY_TUESDAY, tuesday);
         initialValues.put(KEY_WEDNESDAY, wednesday);
@@ -152,14 +156,14 @@ public class DBAdapter {
 	
 	// Return all data in the database.
 	public Cursor getAllRows() {
-		String where = null;
-		Cursor c = 	db.query(true, DATABASE_TABLE, ALL_KEYS,
-							where, null, null, null, null, null);
-		if (c != null) {
-			c.moveToFirst();
-		}
-		return c;
-	}
+        String where = null;
+        Cursor c = db.query(true, DATABASE_TABLE, ALL_KEYS,
+                where, null, null, null, null, null);
+        if (c != null) {
+            c.moveToFirst();
+        }
+        return c;
+    }
 
 	// Get a specific row (by rowId)
 	public Cursor getRow(long rowId) {
@@ -173,7 +177,7 @@ public class DBAdapter {
 	}
 	
 	// Change an existing row to be equal to new data.
-	public boolean updateRow(long rowId, String name, int hourofday, int minute, int monday, int tuesday, int wednesday, int thursday, int friday, int saturday, int sunday) {
+	public boolean updateRow(long rowId, String name, int hourofday, int minute, int requestcode, int monday, int tuesday, int wednesday, int thursday, int friday, int saturday, int sunday) {
 		String where = KEY_ROWID + "=" + rowId;
 
 		/*
@@ -186,6 +190,7 @@ public class DBAdapter {
         newValues.put(KEY_NAME, name);
         newValues.put(KEY_HOUROFDAY, hourofday);
         newValues.put(KEY_MINUTE, minute);
+        newValues.put(KEY_REQUESTCODE, requestcode);
         newValues.put(KEY_MONDAY, monday);
         newValues.put(KEY_TUESDAY, tuesday);
         newValues.put(KEY_WEDNESDAY, wednesday);

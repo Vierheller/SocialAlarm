@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.zip.Inflater;
@@ -36,6 +37,10 @@ public class OverviewActivity extends Activity
     private CharSequence mTitle;
 
 
+    //Widgets
+    ListView alarmList;
+
+
 
 
     @Override
@@ -52,6 +57,16 @@ public class OverviewActivity extends Activity
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
 
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.container, new FragmentAlarm()).commit();
     }
 
     @Override
@@ -88,6 +103,8 @@ public class OverviewActivity extends Activity
 
 
     }
+
+
 
     public void oc_addAlarm(View view){
         Intent intent = new Intent(this, Activity_Alarm.class);
