@@ -48,6 +48,7 @@ public class FragmentAlarm extends Fragment{
         Cursor cursor = socialAlarm.dbAdapter.getAllRows();
         if(cursor.moveToFirst()) {
             do {
+                long id = cursor.getLong(0);
                 String title = cursor.getString(1);
                 int hour = cursor.getInt(2);
                 int minute = cursor.getInt(3);
@@ -59,7 +60,7 @@ public class FragmentAlarm extends Fragment{
                 int fr = cursor.getInt(9);
                 int sa = cursor.getInt(10);
                 int su = cursor.getInt(11);
-                myAlarms.add(new AlarmHolder(title, hour, minute, requestcode, mo, tu, we, th, fr, sa, su));
+                myAlarms.add(new AlarmHolder(id, title, hour, minute, requestcode, mo, tu, we, th, fr, sa, su));
             }while(cursor.moveToNext());
         }
         cursor.close();

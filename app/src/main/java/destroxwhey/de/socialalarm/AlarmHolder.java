@@ -4,6 +4,7 @@ package destroxwhey.de.socialalarm;
  * Created by Jan-Niklas on 13.11.2014.
  */
 public class AlarmHolder {
+    private long id;
     private String name;
     private int hour;
     private int minute;
@@ -17,7 +18,8 @@ public class AlarmHolder {
     private int Su;
     private int[] days = new int[7];
 
-    public AlarmHolder(String name, int hour, int minute, int requestcode, int mo, int tu, int we, int th, int fr, int sa, int su) {
+    public AlarmHolder(long id, String name, int hour, int minute, int requestcode, int mo, int tu, int we, int th, int fr, int sa, int su) {
+        this.id = id;
         this.name = name;
         this.hour = hour;
         this.minute = minute;
@@ -30,6 +32,10 @@ public class AlarmHolder {
         this.Sa = sa;
         this.Su = su;
         this.days[0]=mo;this.days[1]=tu;this.days[2]=we;this.days[3]=th;this.days[4]=fr;this.days[5]=sa;this.days[6]=su;
+    }
+
+    public long getId() {
+        return id;
     }
 
     public String getName() {
@@ -78,6 +84,10 @@ public class AlarmHolder {
 
     public int[] getDays() {
         return days;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public void setName(String name) {

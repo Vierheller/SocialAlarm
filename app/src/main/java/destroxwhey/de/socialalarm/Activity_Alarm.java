@@ -25,11 +25,14 @@ import java.util.Calendar;
 
 public class Activity_Alarm extends Activity {
     private int alarmImage = R.drawable.alarm;
+    private int intent = 0;
     //Widgets
     private ListView alarm_listView;
+    private long id;
     private EditText et_name;
     private EditText et_hour;
     private EditText et_minute;
+    private int requestcode;
     private TextView tv_M;
     private TextView tv_TU;
     private TextView tv_W;
@@ -60,10 +63,13 @@ public class Activity_Alarm extends Activity {
 
         Intent myIntent = getIntent();
         if(myIntent.getIntExtra("intent", 0) == 1){
+            intent = myIntent.getIntExtra("intent", 0);
             int position = myIntent.getIntExtra("position", 0);
             et_name.setText(socialAlarm.myAlarms.get(position).getName());
             et_hour.setText(String.valueOf(socialAlarm.myAlarms.get(position).getHour()));
             et_minute.setText(String.valueOf(socialAlarm.myAlarms.get(position).getMinute()));
+            requestcode = socialAlarm.myAlarms.get(position).getRequestcode();
+            id = socialAlarm.myAlarms.get(position).getId();
         }
     }
 
@@ -88,28 +94,53 @@ public class Activity_Alarm extends Activity {
     }
 
     private void setAlarm(){
-        //TODO: Change requestCode and update by index of Alarms
-        int requestCode = socialAlarm.myAlarms.size();
-        Intent myIntent = new Intent(this, NotifyService.class);
-        AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, requestCode, myIntent, PendingIntent.FLAG_ONE_SHOT);
+        //Set the requestCode as a new one -> set as next
+        int reqCode = socialAlarm.myAlarms.size();
+        if(intent == 1){
+            //or set the requestCode as the same like the last alarm and override it
+            reqCode = requestcode;
+        }
 
+        //get Calendar time and unse the informations to set the alarm
         Calendar calendar = Calendar.getInstance();
         int hour = Integer.parseInt(et_hour.getText().toString());
         int minute = Integer.parseInt(et_minute.getText().toString());
         String name = et_name.getText().toString();
 
-        Log.d("Alarm", String.valueOf(hour)+" "+String.valueOf(minute));
+        String wroteTime;
+        if(hour <10){
+            wroteTime = "0"+String.valueOf(hour);
+        }else{
+            wroteTime = String.valueOf(hour);
+        }
+        wroteTime += ":";
+        if(minute <10){
+            wroteTime += "0"+String.valueOf(minute);
+        }else{
+            wroteTime +=String.valueOf(minute);
+        }
+
+        Log.d("Alarm", wroteTime);
         calendar.set(Calendar.SECOND, 00);
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, minute);
 
         Log.d("Alarm" , String.valueOf(calendar.get(Calendar.HOUR_OF_DAY)+" "+ calendar.get(Calendar.MINUTE)+" "+ calendar.get(Calendar.DAY_OF_MONTH)));
 
+        Intent myIntent = new Intent(this, NotifyService.class);
+        myIntent.putExtra("name", name);
+        myIntent.putExtra("time", wroteTime);
+        AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, reqCode, myIntent, PendingIntent.FLAG_ONE_SHOT);
+
         //Without seperate Days
         alarmManager.setExact(AlarmManager.RTC, calendar.getTimeInMillis(),pendingIntent);
 
-        socialAlarm.dbAdapter.insertRow(name, hour, minute, requestCode, 1,1,1,1,1,1,1);
+        if(intent == 1){
+            socialAlarm.dbAdapter.updateRow(id, name, hour, minute, reqCode, 1,1,1,1,1,1,1);
+        }else{
+            socialAlarm.dbAdapter.insertRow(name, hour, minute, reqCode, 1,1,1,1,1,1,1);
+        }
 
         Toast.makeText(getBaseContext(), "Alarm Set", Toast.LENGTH_SHORT).show();
         finish();

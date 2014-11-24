@@ -28,8 +28,8 @@ public class NotifyService extends BroadcastReceiver{
         PendingIntent pIntent = PendingIntent.getActivity(context, 0, intent1, 0);
 
         Notification mNotify = new Notification.Builder(context)
-                .setContentTitle("Alarm!")
-                .setContentText("Wake UP" /*intent.getStringExtra("AlarmTime")*/)
+                .setContentTitle(intent.getStringExtra("name"))
+                .setContentText(intent.getStringExtra("time"))
                 .setSmallIcon(R.drawable.ic_launcher)
                 .setContentIntent(pIntent)
                 .setSound(sound)
