@@ -35,5 +35,11 @@ public class NotifyService extends BroadcastReceiver{
                 .setSound(sound)
                 .build();
         nMN.notify(1, mNotify);
+
+        Intent activity = new Intent(context, Activity_Alert.class);
+        activity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        activity.putExtra("name", intent.getStringExtra("name"));
+        activity.putExtra("time", intent.getStringExtra("time"));
+        context.startActivity(activity);
     }
 }

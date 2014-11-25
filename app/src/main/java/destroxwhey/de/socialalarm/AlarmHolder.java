@@ -16,7 +16,7 @@ public class AlarmHolder {
     private int Fr;
     private int Sa;
     private int Su;
-    private int[] days = new int[7];
+    private int[] days;
 
     public AlarmHolder(long id, String name, int hour, int minute, int requestcode, int mo, int tu, int we, int th, int fr, int sa, int su) {
         this.id = id;
@@ -31,6 +31,7 @@ public class AlarmHolder {
         this.Fr = fr;
         this.Sa = sa;
         this.Su = su;
+        this.days = new int[7];
         this.days[0]=mo;this.days[1]=tu;this.days[2]=we;this.days[3]=th;this.days[4]=fr;this.days[5]=sa;this.days[6]=su;
     }
 

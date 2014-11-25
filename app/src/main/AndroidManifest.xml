@@ -3,13 +3,13 @@
     package="destroxwhey.de.socialalarm" >
 
     <application
-        android:name =".SocialAlarm"
+        android:name="destroxwhey.de.socialalarm.SocialAlarm"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".OverviewActivity"
+            android:name="destroxwhey.de.socialalarm.OverviewActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,14 +18,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activity_Alarm"
+            android:name="destroxwhey.de.socialalarm.Activity_Alarm"
             android:label="@string/title_activity_activity__alarm"
-            android:parentActivityName=".OverviewActivity" >
+            android:parentActivityName="destroxwhey.de.socialalarm.OverviewActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="destroxwhey.de.socialalarm.OverviewActivity" />
         </activity>
-        <receiver android:name=".NotifyService"></receiver>
+
+        <receiver android:name="destroxwhey.de.socialalarm.NotifyService" />
+
+        <activity
+            android:name="destroxwhey.de.socialalarm.Activity_Alert"
+            android:label="@string/title_activity_activity__alert" >
+        </activity>
     </application>
 
 </manifest>

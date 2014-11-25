@@ -56,7 +56,21 @@ public class AlarmListAdapter extends ArrayAdapter<String> {
         }
         myImage.setImageResource(R.drawable.alarm);
         myTitle.setText(titles[position]);
-        myTime.setText(myAlarms.get(position).getHour()+":"+myAlarms.get(position).getMinute());
+        int hour = myAlarms.get(position).getHour();
+        int minute= myAlarms.get(position).getMinute();
+        String wroteTime;
+        if(hour <10){
+            wroteTime = "0"+String.valueOf(hour);
+        }else{
+            wroteTime = String.valueOf(hour);
+        }
+        wroteTime += ":";
+        if(minute <10){
+            wroteTime += "0"+String.valueOf(minute);
+        }else{
+            wroteTime +=String.valueOf(minute);
+        }
+        myTime.setText(wroteTime);
 
         return row;
     }
